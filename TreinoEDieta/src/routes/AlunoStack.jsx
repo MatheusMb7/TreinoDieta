@@ -2,7 +2,7 @@ import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 
 import AlunoLista from '../screens/aluno/AlunoLista'
-import AlunoForm from '../screens/aluno/ALunoForm'
+import AlunoForm from '../screens/aluno/AlunoForm'
 
 
 const Stack = createStackNavigator()

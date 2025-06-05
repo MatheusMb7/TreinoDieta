@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, StyleSheet, View } from 'react-native';
+import { FlatList, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { ActivityIndicator, Avatar, Card, IconButton, MD3Colors, Text } from 'react-native-paper';
 import axios from 'axios';
 
@@ -9,24 +10,19 @@ export default function HomeScreen({ navigation }) {
 
   useEffect(() => {
     axios.get('https://dummyjson.com/users?limit=10')
-      .then(res => {
-        setUsuarios(res.data.users);
-      })
+      .then(res => setUsuarios(res.data.users))
       .catch(() => alert('Erro ao comunicar com a API!'))
       .finally(() => setLoading(false));
   }, []);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       {loading ? (
-        <View style={styles.loadingContainer}>
-          <ActivityIndicator animating={true} color={MD3Colors.primary50} size={80} />
-          <Text variant='titleLarge'>Carregando usuários...</Text>
-        </View>
+        <ActivityIndicator animating={true} color={MD3Colors.primary50} size={80} />
       ) : (
         <FlatList
           data={usuarios}
-          keyExtractor={(item) => item.id.toString()}
+          keyExtractor={item => item.id.toString()}
           renderItem={({ item }) => (
             <Card style={styles.card} onPress={() => navigation.navigate('DetalhesUsuario', item.id)}>
               <Card.Title
@@ -37,14 +33,14 @@ export default function HomeScreen({ navigation }) {
               />
             </Card>
           )}
+          ListEmptyComponent={<Text style={{ textAlign: 'center', marginTop: 20 }}>Nenhum usuário encontrado</Text>}
         />
       )}
-    </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#fff' },
-  loadingContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
-  card: { margin: 5 }
+  card: { margin: 5 },
 });

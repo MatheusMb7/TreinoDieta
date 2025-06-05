@@ -1,69 +1,37 @@
-import React, { useEffect, useState } from 'react';
-import { FlatList, StyleSheet, View, Alert } from 'react-native';
-import { Button, Card, IconButton, Text } from 'react-native-paper';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import RefeicaoService from '../../services/RefeicaoService';
+const CHAVE = '@treinos';
 
-export default function RefeicaoLista({ navigation }) {
-  const [refeicoes, setRefeicoes] = useState([]);
-
-  useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', carregarRefeicoes);
-    return unsubscribe;
-  }, [navigation]);
-
-  function carregarRefeicoes() {
-    RefeicaoService.listar().then(setRefeicoes);
-  }
-
-  function excluir(id) {
-    Alert.alert('Confirmação', 'Deseja realmente excluir esta refeição?', [
-      { text: 'Cancelar' },
-      {
-        text: 'Excluir',
-        onPress: () => {
-          RefeicaoService.remover(id).then(carregarRefeicoes);
-        },
-        style: 'destructive'
-      }
-    ]);
-  }
-
-  return (
-    <View style={styles.container}>
-      <Button mode="contained" onPress={() => navigation.navigate('FormRefeicao')} style={styles.botao}>
-        Nova Refeição
-      </Button>
-      <FlatList
-        data={refeicoes}
-        keyExtractor={item => item.id.toString()}
-        renderItem={({ item }) => (
-          <Card style={styles.card}>
-            <Card.Title
-              title={item.nome}
-              subtitle={`Calorias: ${item.calorias} kcal`}
-              right={props => (
-                <>
-                  <IconButton {...props} icon="pencil" onPress={() => navigation.navigate('FormRefeicao', item)} />
-                  <IconButton {...props} icon="delete" onPress={() => excluir(item.id)} />
-                </>
-              )}
-            />
-            <Card.Content>
-              <Text>Descrição: {item.descricao}</Text>
-              <Text>Tipo: {item.tipo}</Text>
-              <Text>Horário: {item.horario}</Text>
-            </Card.Content>
-          </Card>
-        )}
-        ListEmptyComponent={<Text style={{ textAlign: 'center', marginTop: 20 }}>Nenhuma refeição cadastrada</Text>}
-      />
-    </View>
-  );
+async function listar() {
+  const dados = await AsyncStorage.getItem(CHAVE);
+  return dados ? JSON.parse(dados) : [];
 }
 
-const styles = StyleSheet.create({
-  container: { flex: 1, padding: 10, backgroundColor: '#fff' },
-  botao: { marginBottom: 10 },
-  card: { marginBottom: 10 }
-});
+async function inserir(treino) {
+  const treinos = await listar();
+  treino.id = Date.now();
+  treinos.push(treino);
+  await AsyncStorage.setItem(CHAVE, JSON.stringify(treinos));
+}
+
+async function atualizar(treino) {
+  const treinos = await listar();
+  const index = treinos.findIndex(t => t.id === treino.id);
+  if (index !== -1) {
+    treinos[index] = treino;
+    await AsyncStorage.setItem(CHAVE, JSON.stringify(treinos));
+  }
+}
+
+async function remover(id) {
+  const treinos = await listar();
+  const novos = treinos.filter(t => t.id !== id);
+  await AsyncStorage.setItem(CHAVE, JSON.stringify(novos));
+}
+
+export default {
+  listar,
+  inserir,
+  atualizar,
+  remover
+};

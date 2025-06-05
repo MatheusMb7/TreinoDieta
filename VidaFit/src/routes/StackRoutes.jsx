@@ -3,8 +3,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import HomeScreen from '../screens/HomeScreen';
-import UsuarioScreen from '../screens/UsuarioScreen';
+import HomeScreen from '../screens/Usuario/Homescreen';
+import UsuarioScreen from '../screens/Usuario/UsuarioScreen';
 
 import TreinoLista from '../screens/Treino/TreinoLista';
 import TreinoForm from '../screens/Treino/TreinoForm';
@@ -18,6 +18,24 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+
+// Stack para a Home (com header "Usuários")
+function HomeStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="HomeScreen"
+        component={HomeScreen}
+        options={{ title: 'Usuários' }}
+      />
+      <Stack.Screen
+        name="DetalhesUsuario"
+        component={UsuarioScreen}
+        options={{ title: 'Detalhes do Usuário' }}
+      />
+    </Stack.Navigator>
+  );
+}
 
 function TreinoStack() {
   return (
@@ -41,7 +59,7 @@ function Tabs() {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
-        headerShown: false,
+        headerShown: false, // esconder header da Tab, controlado pelos stacks internos
         tabBarIcon: ({ color, size }) => {
           let iconName;
           if (route.name === 'Home') iconName = 'home';
@@ -53,7 +71,7 @@ function Tabs() {
         },
       })}
     >
-      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Home" component={HomeStack} />
       <Tab.Screen name="Treinos" component={TreinoStack} />
       <Tab.Screen name="Refeições" component={RefeicaoStack} />
       <Tab.Screen name="Progresso" component={ProgressoScreen} />
@@ -64,10 +82,7 @@ function Tabs() {
 export default function StackRoutes() {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Tabs" component={Tabs} options={{ headerShown: false }} />
-        <Stack.Screen name="DetalhesUsuario" component={UsuarioScreen} options={{ title: 'Detalhes do Usuário' }} />
-      </Stack.Navigator>
+      <Tabs />
     </NavigationContainer>
   );
 }

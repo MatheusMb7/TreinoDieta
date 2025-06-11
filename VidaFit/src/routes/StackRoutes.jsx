@@ -1,88 +1,74 @@
 import React from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createStackNavigator } from '@react-navigation/stack';
 
 import HomeScreen from '../screens/Usuario/Homescreen';
-import UsuarioScreen from '../screens/Usuario/UsuarioScreen';
 
-import TreinoLista from '../screens/Treino/TreinoLista';
-import TreinoForm from '../screens/Treino/TreinoForm';
+// Usuários
+import FormUsuario from '../screens/Usuario/FormUsuario';
+import DetalhesUsuario from '../screens/Usuario/UsuarioScreen';
 
+// Treinos
+import TreinoLista from '../screens/Treino/TreinoLista';  // <-- Aqui ajuste o nome
+import FormTreino from '../screens/Treino/TreinoForm';
+
+// Refeições
 import RefeicaoLista from '../screens/Refeicao/RefeicaoLista';
 import RefeicaoForm from '../screens/Refeicao/RefeicaoForm';
 
-import ProgressoScreen from '../screens/Progresso/ProgressoScreen';
+// Exercícios (API externa)
+import ExerciciosScreen from '../screens/Exercise/ExerciciosScreen';
 
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-const Stack = createNativeStackNavigator();
-const Tab = createBottomTabNavigator();
+const Drawer = createDrawerNavigator();
+const Stack = createStackNavigator();
 
-// Stack para a Home (com header "Usuários")
-function HomeStack() {
+function UsuariosStack() {
   return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="HomeScreen"
-        component={HomeScreen}
-        options={{ title: 'Usuários' }}
-      />
-      <Stack.Screen
-        name="DetalhesUsuario"
-        component={UsuarioScreen}
-        options={{ title: 'Detalhes do Usuário' }}
-      />
+    <Stack.Navigator initialRouteName="ListaUsuarios">
+      <Stack.Screen name="ListaUsuarios" component={HomeScreen} options={{ title: 'Usuários' }} />
+      <Stack.Screen name="FormUsuario" component={FormUsuario} options={{ title: 'Novo Usuário' }} />
+      <Stack.Screen name="DetalhesUsuario" component={DetalhesUsuario} options={{ title: 'Detalhes do Usuário' }} />
     </Stack.Navigator>
   );
 }
 
-function TreinoStack() {
+function TreinosStack() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName="ListaTreinos">
       <Stack.Screen name="ListaTreinos" component={TreinoLista} options={{ title: 'Treinos' }} />
-      <Stack.Screen name="FormTreino" component={TreinoForm} options={{ title: 'Cadastrar/Editar Treino' }} />
+      <Stack.Screen name="FormTreino" component={FormTreino} options={{ title: 'Novo Treino' }} />
     </Stack.Navigator>
   );
 }
 
-function RefeicaoStack() {
+function RefeicoesStack() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName="ListaRefeicoes">
       <Stack.Screen name="ListaRefeicoes" component={RefeicaoLista} options={{ title: 'Refeições' }} />
-      <Stack.Screen name="FormRefeicao" component={RefeicaoForm} options={{ title: 'Cadastrar/Editar Refeição' }} />
+      <Stack.Screen name="FormRefeicao" component={RefeicaoForm} options={{ title: 'Nova Refeição' }} />
     </Stack.Navigator>
   );
 }
 
-function Tabs() {
+function ExerciciosStack() {
   return (
-    <Tab.Navigator
-      screenOptions={({ route }) => ({
-        headerShown: false, // esconder header da Tab, controlado pelos stacks internos
-        tabBarIcon: ({ color, size }) => {
-          let iconName;
-          if (route.name === 'Home') iconName = 'home';
-          else if (route.name === 'Treinos') iconName = 'dumbbell';
-          else if (route.name === 'Refeições') iconName = 'food';
-          else if (route.name === 'Progresso') iconName = 'chart-line';
-
-          return <MaterialCommunityIcons name={iconName} size={size} color={color} />;
-        },
-      })}
-    >
-      <Tab.Screen name="Home" component={HomeStack} />
-      <Tab.Screen name="Treinos" component={TreinoStack} />
-      <Tab.Screen name="Refeições" component={RefeicaoStack} />
-      <Tab.Screen name="Progresso" component={ProgressoScreen} />
-    </Tab.Navigator>
+    <Stack.Navigator initialRouteName="Exercicios">
+      <Stack.Screen name="Exercicios" component={ExerciciosScreen} options={{ title: 'Exercícios' }} />
+    </Stack.Navigator>
   );
 }
 
 export default function StackRoutes() {
   return (
     <NavigationContainer>
-      <Tabs />
+      <Drawer.Navigator initialRouteName="Usuários">
+        <Drawer.Screen name="Usuários" component={UsuariosStack} />
+        <Drawer.Screen name="Treinos" component={TreinosStack} />
+        <Drawer.Screen name="Refeições" component={RefeicoesStack} />
+        <Drawer.Screen name="Exercícios" component={ExerciciosStack} />
+      </Drawer.Navigator>
     </NavigationContainer>
   );
 }

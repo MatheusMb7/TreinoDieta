@@ -4,6 +4,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import HomeScreen from '../screens/Usuario/Homescreen';
+<<<<<<< HEAD
 import UsuarioScreen from '../screens/Usuario/UsuarioScreen';
 // Usuários
 import FormUsuario from '../screens/Usuario/FormUsuario';
@@ -11,6 +12,15 @@ import FormUsuario from '../screens/Usuario/FormUsuario';
 
 // Treinos
 import TreinoLista from '../screens/Treino/TreinoLista';  
+=======
+
+// Usuários
+import FormUsuario from '../screens/Usuario/FormUsuario';
+import DetalhesUsuario from '../screens/Usuario/UsuarioScreen';
+
+// Treinos
+import TreinoLista from '../screens/Treino/TreinoLista';  // <-- Aqui ajuste o nome
+>>>>>>> 06b31ae (alterações)
 import FormTreino from '../screens/Treino/TreinoForm';
 
 // Refeições
@@ -19,6 +29,7 @@ import RefeicaoForm from '../screens/Refeicao/RefeicaoForm';
 import ImcScreen from '../screens/Imc/ImcScreen';
 import NutritionScreen from '../screens/Refeicao/NutritionScreen';
 
+<<<<<<< HEAD
 
 // Exercícios (API externa)
 
@@ -27,12 +38,25 @@ import NutritionScreen from '../screens/Refeicao/NutritionScreen';
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
+=======
+// Exercícios (API externa)
+import ExerciciosScreen from '../screens/Exercise/ExerciciosScreen';
+
+
+const Drawer = createDrawerNavigator();
+const Stack = createStackNavigator();
+
+>>>>>>> 06b31ae (alterações)
 function UsuariosStack() {
   return (
     <Stack.Navigator initialRouteName="ListaUsuarios">
       <Stack.Screen name="ListaUsuarios" component={HomeScreen} options={{ title: 'Usuários' }} />
       <Stack.Screen name="FormUsuario" component={FormUsuario} options={{ title: 'Novo Usuário' }} />
+<<<<<<< HEAD
       <Stack.Screen name="DetalhesUsuario" component={UsuarioScreen} options={{ title: 'Detalhes do Usuário' }} />
+=======
+      <Stack.Screen name="DetalhesUsuario" component={DetalhesUsuario} options={{ title: 'Detalhes do Usuário' }} />
+>>>>>>> 06b31ae (alterações)
     </Stack.Navigator>
   );
 }
@@ -55,6 +79,17 @@ function RefeicoesStack() {
   );
 }
 
+<<<<<<< HEAD
+=======
+function ExerciciosStack() {
+  return (
+    <Stack.Navigator initialRouteName="Exercicios">
+      <Stack.Screen name="Exercicios" component={ExerciciosScreen} options={{ title: 'Exercícios' }} />
+    </Stack.Navigator>
+  );
+}
+
+>>>>>>> 06b31ae (alterações)
 export default function StackRoutes() {
   return (
     <NavigationContainer>
@@ -62,10 +97,14 @@ export default function StackRoutes() {
         <Drawer.Screen name="Usuários" component={UsuariosStack} />
         <Drawer.Screen name="Treinos" component={TreinosStack} />
         <Drawer.Screen name="Refeições" component={RefeicoesStack} />
+<<<<<<< HEAD
         <Drawer.Screen name="IMC" component={ImcScreen} />
         <Stack.Screen name="Alimentos Fitness" component={NutritionScreen} />
         
         
+=======
+        <Drawer.Screen name="Exercícios" component={ExerciciosStack} />
+>>>>>>> 06b31ae (alterações)
       </Drawer.Navigator>
     </NavigationContainer>
   );

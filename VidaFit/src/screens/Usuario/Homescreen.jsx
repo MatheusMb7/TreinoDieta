@@ -1,8 +1,12 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 06b31ae (alterações)
 import React, { useState, useEffect } from 'react';
 import { View, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 import { Card, Text, Avatar, FAB } from 'react-native-paper';
 import { useIsFocused } from '@react-navigation/native';
+<<<<<<< HEAD
 
 import { listarUsuarios } from '../../services/UsuarioService';
 =======
@@ -11,8 +15,10 @@ import { FlatList, StyleSheet, View } from 'react-native';
 import { ActivityIndicator, Avatar, Card, IconButton, MD3Colors, Text } from 'react-native-paper';
 import axios from 'axios';
 >>>>>>> bc0d165 (mudança no dummyjson)
+=======
+>>>>>>> 06b31ae (alterações)
 
-const objetivos = ['Hipertrofia', 'Emagrecimento', 'Condicionamento', 'Resistência', 'Bem-estar'];
+import { listarUsuarios } from '../../services/UsuarioService';
 
 export default function HomeScreen({ navigation }) {
   const [usuarios, setUsuarios] = useState([]);
@@ -20,6 +26,9 @@ export default function HomeScreen({ navigation }) {
 
   useEffect(() => {
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 06b31ae (alterações)
     async function carregarUsuarios() {
       const data = await listarUsuarios();
       setUsuarios(data);
@@ -45,6 +54,7 @@ export default function HomeScreen({ navigation }) {
       </Card>
     </TouchableOpacity>
   );
+<<<<<<< HEAD
 
   return (
     <View style={styles.container}>
@@ -95,12 +105,30 @@ export default function HomeScreen({ navigation }) {
         />
       )}
 >>>>>>> bc0d165 (mudança no dummyjson)
+=======
+
+  return (
+    <View style={styles.container}>
+      <FlatList
+        data={usuarios}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={renderItem}
+      />
+      <FAB
+        icon="plus"
+        style={styles.fab}
+        onPress={() => navigation.navigate('FormUsuario')}
+      />
+>>>>>>> 06b31ae (alterações)
     </View>
   );
 }
 
 const styles = StyleSheet.create({
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 06b31ae (alterações)
   container: {
     flex: 1,
     padding: 10,
@@ -114,9 +142,12 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
   },
+<<<<<<< HEAD
 =======
   container: { flex: 1, backgroundColor: '#fff' },
   loadingContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
   card: { margin: 5 },
 >>>>>>> bc0d165 (mudança no dummyjson)
+=======
+>>>>>>> 06b31ae (alterações)
 });

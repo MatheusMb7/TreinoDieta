@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import axios from 'axios';
 
 const BASE_URL = 'https://www.themealdb.com/api/json/v1/1/';
@@ -28,30 +29,36 @@ export async function buscarRefeicoesAleatorias(qtd = 5) {
 }
 =======
 import AsyncStorage from '@react-native-async-storage/async-storage';
+=======
+import axios from 'axios';
+>>>>>>> 2d3a100 (adicionando APIs)
 
-const CHAVE = '@refeicoes';
+const BASE_URL = 'https://www.themealdb.com/api/json/v1/1/';
 
-// Dados iniciais para primeira execução
-const dadosIniciais = [
-  { id: 1, nome: 'Café da manhã', descricao: 'Pão, café, frutas', calorias: 300, tipo: 'Café', horario: '07:00' },
-  { id: 2, nome: 'Almoço', descricao: 'Arroz, feijão, frango', calorias: 700, tipo: 'Principal', horario: '12:00' },
-];
-
-async function listar() {
+export async function buscarRefeicoesAleatorias(qtd = 5) {
   try {
-    const dados = await AsyncStorage.getItem(CHAVE);
-    if (dados) {
-      return JSON.parse(dados);
-    } else {
-      // Primeira execução - salva dados iniciais
-      await AsyncStorage.setItem(CHAVE, JSON.stringify(dadosIniciais));
-      return dadosIniciais;
-    }
+    const promessas = Array.from({ length: qtd }, () =>
+      axios.get(`${BASE_URL}random.php`)
+    );
+
+    const respostas = await Promise.all(promessas);
+    return respostas.map(res => {
+      const meal = res.data.meals[0];
+      return {
+        id: meal.idMeal,
+        nome: meal.strMeal,
+        imagem: meal.strMealThumb,
+        categoria: meal.strCategory,
+        origem: meal.strArea,
+        instrucoes: meal.strInstructions
+      };
+    });
   } catch (error) {
-    console.error('Erro ao listar refeições:', error);
-    return dadosIniciais;
+    console.error('Erro ao buscar refeições da API externa:', error);
+    return [];
   }
 }
+<<<<<<< HEAD
 
 async function inserir(refeicao) {
   try {
@@ -98,3 +105,5 @@ export default {
   remover
 };
 >>>>>>> 06b31ae (alterações)
+=======
+>>>>>>> 2d3a100 (adicionando APIs)

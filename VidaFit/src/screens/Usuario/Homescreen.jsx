@@ -18,9 +18,7 @@ export default function HomeScreen({ navigation }) {
   }, [isFocused]);
 
   const renderItem = ({ item }) => (
-    <TouchableOpacity
-      onPress={() => navigation.navigate('DetalhesUsuario', item)}
-    >
+    <TouchableOpacity onPress={() => navigation.navigate('DetalhesUsuario', item)}>
       <Card style={styles.card}>
         <Card.Title
           title={`${item.firstName} ${item.lastName}`}

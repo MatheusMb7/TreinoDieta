@@ -1,4 +1,4 @@
-// src/services/ExerciseAPIService.js
+
 
 const API_BASE_URL = 'https://api.api-ninjas.com/v1/exercises';
 const API_KEY = 'K/9b2O4UBMMIXiBLCWN7/w==6FrDLDfWGw0jHZV3';
@@ -18,7 +18,6 @@ export default {
 
       const data = await response.json();
 
-      // Traduz os campos para português
       const dadosTraduzidos = data.slice(0, 10).map(item => traduzirCampos(item));
 
       return dadosTraduzidos;
@@ -63,7 +62,7 @@ function traduzirCampos(item) {
   };
 }
 
-// Funções auxiliares para traduzir valores específicos
+
 
 function traduzirTipo(type) {
   const map = {
@@ -73,7 +72,7 @@ function traduzirTipo(type) {
     stretching: 'alongamento',
     powerlifting: 'levantamento de peso',
     strongman: 'força máxima',
-    // outros tipos que você queira mapear...
+  
   };
   return map[type.toLowerCase()] || type;
 }
